@@ -7,15 +7,6 @@ Created on Fri Feb  9 09:05:36 2018
 
 #%%
 
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  9 09:05:36 2018
-
-@author: yanghang
-"""
-
-#%%
-
 import numpy as np
 import tensorflow as tf
 from matplotlib import pyplot as plt
