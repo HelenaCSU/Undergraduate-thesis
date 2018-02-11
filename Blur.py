@@ -4,7 +4,10 @@ Created on Sun Feb 11 08:06:01 2018
 
 @author: yanghang
 """
-
+'''
+文献里说 拉弧现象产生的时候由于电磁现象会有大量的高斯噪声影响图片质量，
+所以用高斯滤波器过滤噪声，但实际的效果并不是很好
+'''
 import cv2
 import numpy
 from matplotlib import pyplot as plt
@@ -18,5 +21,3 @@ while(1):
     if k== ord('q'):
         break
 cv2.destroyAllWindows()
-print(image.shape)
-q
