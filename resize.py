@@ -31,3 +31,5 @@ def resize():
             imResize.save(f+'resized.jpg','JPEG', quality=90)
 
 resize()
+# 在TensorFlow里面可以利用tf.image.resize_image_with_crop_or_pad() 代替上面一段代码
+# Args: image(4-D tensor[batch,height,width,channel]) ; target_height;target_width
