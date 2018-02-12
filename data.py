@@ -77,3 +77,35 @@ return image_batch,label_batch
 #或者根据stackflow上面的建议
 #https://stackoverflow.com/questions/48729620/python-tensorflowunimplementederror-cast-string-to-int32-is-not-supported?noredirect=1#comment84475634_48729620，
 #用tf.dataset来取代把用队列
+filenames=["train.tfrecords"]
+dataset=tf.data.TFRecordDataset(filenames)
+def _parse_function(record):
+    features={"image":tf.FixedLenFeature((),tf.string,default_value='')
+              "label":tf.FixedLenFeature((),tf.int32,default_value='')}
+# use tf.parse_single_example() function to extract the data            
+    parsed=tf.parse_single_example(record,features)
+    image_decoded=tf.image.decoded_image(parsed["image"]) 
+    image_resize=tf.image.reshape(image_decoded,[200,200,1])
+    label=tf.cast(parse["label"],tf.int32)
+ return {"image":image,"label":label}
+ dataset=dataset.map(_parse_function) #parse the record into tensor
+ dataset=dataset.shuffle(buffer_size=1000)
+ dataset=dataset.batch(32)
+ iterator=dataset.make_initializable_iterator()
+ image,label=iterator.get_next()
+
+#compute for 10 epochs
+ for _in range(100):
+    sess.run(iterator.initializer)
+    while True:
+        try:
+            sess.run(next_element)
+        except tf.errors.OutOfRangeError:
+            break
+
+  
+
+
+
+
+
