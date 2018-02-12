@@ -10,7 +10,7 @@ import numpy as np
 import os
 
 #%%
-
+# step 1.获取所有的图片路径名，存放到对应的列表中，同时贴上标签，存放到label列表中
 def get_files(file_dir):
     '''
     Args:
@@ -54,3 +54,26 @@ def get_files(file_dir):
 
 train_dir='C:\\Users\\yanghang\\ugthesis\\data'
 image_list,label_list=get_file(train_dir)
+
+# step 2 将生成的List传入到batch中，因为img和label是分开的所以用tf.train.slice_input_producer([image,label])
+# 但是step 2的代码现在调试还有问题
+def get_batch(image,label,new_height,new_width,batch_size,capacity):
+    image=tf.cast(image,tf.string)
+    label=tf.cast(image,tf.int32)
+
+    input_queue= tf.train.slice_input_producer([image,label])
+    label=input_queue[1]
+    image_contents=tf.read_file(input_queue[0])
+    image=tf.image.decode_jpeg(image_contents,channels=3)
+
+   image=tf.image.resize_images(image,(new_height,new_width))
+   image=tf.image.per_image_standardization(image)
+   image_batch,label_batch=tf.train.batch([image,label],batch_size=batch_size,capacity=capacity,num_threads=8)
+
+   label_batch=tf.reshape(label_batch,[batch_size])
+   image_batch=tf.cast(image_batch,tf.float32)
+return image_batch,label_batch
+
+#或者根据stackflow上面的建议
+#https://stackoverflow.com/questions/48729620/python-tensorflowunimplementederror-cast-string-to-int32-is-not-supported?noredirect=1#comment84475634_48729620，
+#用tf.dataset来取代把用队列
