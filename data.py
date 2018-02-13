@@ -59,7 +59,7 @@ image_list,label_list=get_file(train_dir)
 # 但是step 2的代码现在调试还有问题
 def get_batch(image,label,new_height,new_width,batch_size,capacity):
     image=tf.cast(image,tf.string)
-    label=tf.cast(image,tf.int32)
+    label=tf.cast(label,tf.int32)
 
     input_queue= tf.train.slice_input_producer([image,label])
     label=input_queue[1]
