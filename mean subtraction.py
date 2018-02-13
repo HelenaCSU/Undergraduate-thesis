@@ -53,7 +53,7 @@ def get_files(file_dir):
 
 def get_batch(image,label,new_height,new_width,batch_size,capacity):
     image=tf.cast(image,tf.string)
-    label=tf.cast(image,tf.float32)
+    label=tf.cast(label,tf.float32)
     # tf.train.slice_input_producer
     # Args: tensor_list: a list of tensor_list
     input_queue= tf.train.slice_input_producer([image,label])
