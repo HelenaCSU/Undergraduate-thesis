@@ -23,7 +23,7 @@ def conv(layer_name,x,out_channels,kernel_size=[3,3],stride=[1,1,1,1],is_pretrai
         #                         caching_device)
         w=tf.get_variable(name='weights',trainable=is_pretrain,
                           shape=[kernel_size[0],kernel_size[1],in_channels,out_channels],
-                          initializer=tf.contrib.layers.xavier_initializer)
+                          initializer=tf.contrib.layers.xavier_initializer())
         b=tf.get_variable(name='biases',trainable=is_pretrain,shape=[out_channels],
                           intializer=tf.constant_initializer(0.0))
         # computes a 2-D convolution given 4-D input and filter tensor
@@ -54,11 +54,19 @@ def batch_norm(x):
     x=tf.nn.batch_normalization(x,batch_mean,batch_variance,offset=None,scale=None,variance_epsilon)
     return x
 #%%
-def FC_layers(layer_name,out_nodes):
+def FC_layers(layer_name,x,out_nodes):
     shape=x.get_shape()
     if len(shape)==4:
         size=shape[1].value*shape[2].value*shape[3].value
     else:
         size=shape[-1].value
-        
+    with tf.variable_scope(layer_name):
+        w=tf.get_variable(name='weights',shape=[size,out_nodes],
+                          initializer=tf.contrib.layers.xavier_initializer())
+        b=tf.get_variable(name='biases',shape=[out_nodes],intializer=tf.constant_initializer(0.0))
+        flat_x=tf.reshape(x,[-1,size]) # convert to 1-D tensor
+        x=tf.nn.bias_add(tf.matmul(x,w),b)
+        x=tf.nn.relu(x)
+        return x
+    
    
