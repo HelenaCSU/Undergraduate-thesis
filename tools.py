@@ -69,4 +69,31 @@ def FC_layers(layer_name,x,out_nodes):
         x=tf.nn.relu(x)
         return x
     
-   
+   def loss(logits,labels):
+    '''
+    logits tensor [batch_size,n-classes]
+    labels: one-hot labels
+    '''
+    with tf.name_scope('Loss') as scope:
+        cross_entropy=tf.nn.softmax_cross_entrop_with_logtis(logits=logits,labels=labels,name='cross_entropy')
+        #compute the mean of elements across the dimension of a tensor
+        loss=tf.reduce_mean(cross_entropy,name='Loss')
+        tf.summary.scalar(scope+'/Loss'+loss)
+        return loss
+#%%
+def accuracy(logits,labels):
+     with tf.name_scope('accuracy') as scope:
+         # tf.equal(x,y) return the truth value of (x==y)
+         # tf.argmax 最大值对应的索引
+         correct=tf.equal(tf.argmax(logits,1),tf.argmax(labels,1)) 
+         correct=tf.cast(correct,tf.float32)
+         accuracy=tf.reduce_mean(correct)*100.0
+         tf.summary.scalar(scope+'/accuracy'+accuracy) # Args: name
+         return accuracy
+#%%        
+def optimize(loss,learning_rate,global_step):
+    with tf.name_scope('optimize'):
+        optimizer=tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
+        train_op=optimizer.minimize(loss,global_step=global_step)
+        return train_op
+    
