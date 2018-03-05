@@ -1,3 +1,7 @@
+import cv2
+import numpy as np
+import time
+  
   #利用像素间差异性 运动物体速度求解:
   # 速度=相邻两帧的像素差/视频中的物体和实际物体的比例系数×每秒经过的数据帧数
   # V=PixelDiff/S*FPS           
