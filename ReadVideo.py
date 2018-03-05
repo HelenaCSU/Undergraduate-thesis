@@ -11,10 +11,14 @@ import cv2
 
 '''
 def extractImages(pathIn,pathOut):
+   resize_width=512
+   resize_height=512
    
-    
    vidcap=cv2.VideoCapture(pathIn)
-
+   #指定视频属性
+   vidcap.set(cv2.CAP_PROP_POS_FRAMES,flag)
+   vidcap.set(cv2.CAP_PROP_FRAME_WIDTH,resize_width)
+   vidcap.set(cv2.CAP_PROP_FRAME_HEIGHT,resize_height)
    timeF=1 # 
    success,image=vidcap.read()
    count=0 
