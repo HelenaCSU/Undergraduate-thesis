@@ -3,6 +3,9 @@
 Created on Mon Mar 19 19:24:48 2018
 
 @author: yanghang
+
+当鼠标事件触发时，该函数执行
+返回这个crop区域的坐标值，
 """
 
 import cv2
